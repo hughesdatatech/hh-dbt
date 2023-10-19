@@ -1,7 +1,5 @@
 Welcome to the hinge-dbt project!
 
-### Using the starter project
-
 Try running the following commands once you are set up with an account in dbt Cloud:
 - dbt compile
 - dbt test
