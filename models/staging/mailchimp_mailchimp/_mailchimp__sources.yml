@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: mailchimp_mailchimp
+    tags: ['core_model']
+    schema: mailchimp
+    description: Mailchimp data from the mailchimp schema.
+
+    tables:
+      - name: members
+        columns:
+          - name: ingested_at
+            tests:
+              - dbt_expectations.expect_row_values_to_have_recent_data:
+                  name: _audit_mailchimp_mailchimp_members_data_freshness
+                  datepart: day
+                  interval: 1
+            # TO DO: add additional tests, eg. select list_id,count(1),count(distinct lower(email_address)) 
+            # from mailchimp.members group by 1 having count(1)<>count(distinct lower(email_address));

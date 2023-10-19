@@ -1,0 +1,33 @@
+version: 2
+
+models:
+
+  - name: fct_legacy_itemized_remits
+    description: >
+    columns:
+      - name: legacy_itemized_remit_key
+        tests:
+        - not_null:
+            name: _audit_fct_legacy_itemized_remits_key_not_null
+        - unique:
+            name: _audit_fct_legacy_itemized_remits_key_unique
+
+  - name: fct_legacy_billable_users
+    description: >
+    columns:
+      - name: legacy_billable_user_key
+        tests:
+        - not_null:
+            name: _audit_fct_legacy_billable_users_key_not_null
+        - unique:
+            name: _audit_fct_legacy_billable_users_key_unique
+
+  - name: fct_legacy_itemized_submissions
+    description: >
+    columns:
+      - name: legacy_itemized_submission_key
+        tests:
+        - not_null:
+            name: _audit_fct_legacy_itemized_submissions_key_not_null
+        - unique:
+            name: _audit_fct_legacy_itemized_submissions_key_unique

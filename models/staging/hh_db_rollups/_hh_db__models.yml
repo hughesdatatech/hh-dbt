@@ -1,0 +1,55 @@
+version: 2
+
+models:
+
+  # HH DB Rollups
+  - name: stg_hh_db_rollups__customer_line_of_business
+    columns:  
+      - name: customer_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_rollups__customer_line_of_business_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_rollups__customer_line_of_business_key_not_null
+
+  - name: stg_hh_db_rollups__members
+    columns:  
+      - name: member_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_rollups__members_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_rollups__members_key_not_null
+      - name: member_uuid
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_rollups__members_member_uuid_unique
+          - not_null:
+              name: _audit_stg_hh_db_rollups__members_member_uuid_not_null
+
+  - name: stg_hh_db_rollups__pathways
+    columns:  
+      - name: pathway_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_rollups__pathways_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_rollups__pathways_key_not_null
+
+  - name: stg_hh_db_rollups__screener_relevance_keys
+    columns:  
+      - name: screener_relevance_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_rollups__screener_relevance_keys_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_rollups__screener_relevance_keys_key_not_null
+
+  - name: stg_hh_db_rollups__screenings
+    columns:  
+      - name: screening_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_rollups__screenings_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_rollups__screenings_key_not_null

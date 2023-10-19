@@ -1,0 +1,12 @@
+version: 2
+
+snapshots:
+
+  - name: rpt_legacy_marketing_touchpoints_historical_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_rpt_legacy_marketing_touchpoints_historical_snapshot_base_rpt_match
+          compare_model: ref("rpt_marketing_touchpoints_consolidated")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"

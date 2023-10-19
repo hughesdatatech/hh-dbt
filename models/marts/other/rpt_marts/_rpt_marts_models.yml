@@ -1,0 +1,33 @@
+version: 2
+
+models:
+
+  - name: rpt_marketing_touchpoints_consolidated
+    description: >
+      TBD
+    columns:
+      - name: touchpoint_key
+        tests:
+        - not_null:
+            name: _audit_rpt_marketing_touchpoints_consolidated_key_not_null
+        - unique:
+            name: _audit_rpt_marketing_touchpoints_consolidated_key_unique
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_rpt_marketing_touchpoints_consolidated_base_fct_match
+          compare_model: ref("fct_marketing_touchpoints_consolidated")
+
+  - name: rpt_observed_conversions
+    description: >
+      TBD
+    columns:
+      - name: observed_conversion_key
+        tests:
+        - not_null:
+            name: _audit_rpt_observed_conversions_key_not_null
+        - unique:
+            name: _audit_rpt_observed_conversions_key_unique
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_rpt_observed_conversions_base_fct_match
+          compare_model: ref("fct_observed_conversions")

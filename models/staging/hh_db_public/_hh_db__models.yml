@@ -1,0 +1,154 @@
+version: 2
+
+models:
+
+  # HH DB Public
+  - name: stg_hh_db_public__customer_configurations
+    columns:  
+      - name: customer_configuration_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__customer_configurations_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__customer_configurations_key_not_null
+
+  - name: stg_hh_db_public__customers
+    columns:  
+      - name: customer_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__customers_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__customers_key_not_null
+
+  - name: stg_hh_db_public__customers_insurers
+    columns:  
+      - name: customer_insurer_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__customers_insurers_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__customers_insurers_key_not_null
+
+  - name: stg_hh_db_public__customers_insurers_partnerships
+    columns:  
+      - name: customer_insurer_partnership_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__customers_insurers_partnerships_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__customers_insurers_partnerships_key_not_null
+
+  - name: stg_hh_db_public__insurers
+    columns:  
+      - name: insurer_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__insurers_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__insurers_key_not_null
+
+  - name: stg_hh_db_public__line_of_business
+    columns:  
+      - name: line_of_business_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__line_of_business_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__line_of_business_key_not_null
+
+  - name: stg_hh_db_public__members
+    columns:  
+      - name: member_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__members_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__members_key_not_null
+      - name: member_uuid
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__members_member_uuid_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__members_member_uuid_not_null
+
+  - name: stg_hh_db_public__partnerships
+    columns:  
+      - name: partnership_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__partnerships_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__partnerships_key_not_null
+
+  - name: stg_hh_db_public__pathways
+    columns:  
+      - name: pathway_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__pathways_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__pathways_key_not_null
+
+  - name: stg_hh_db_public__program_indications
+    columns:  
+      - name: program_indication_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__program_indications_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__program_indications_key_not_null
+
+  - name: stg_hh_db_public__recruitments
+    columns:  
+      - name: recruitment_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__recruitments_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__recruitments_key_not_null
+
+  - name: stg_hh_db_public__screening_events
+    columns:  
+      - name: screening_event_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__screening_events_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__screening_events_key_not_null
+
+  - name: stg_hh_db_public__screenings
+    columns:  
+      - name: screening_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__screenings_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__screenings_key_not_null
+
+  - name: stg_hh_db_public__subscriptions
+    columns:  
+      - name: subscription_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__subscriptions_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__subscriptions_key_not_null
+
+  - name: stg_hh_db_public__taggings
+    columns:  
+      - name: tagging_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__taggings_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__taggings_key_not_null
+
+  - name: stg_hh_db_public__tags
+    columns:  
+      - name: tag_id
+        tests:
+          - unique:
+              name: _audit_stg_hh_db_public__tags_key_unique
+          - not_null:
+              name: _audit_stg_hh_db_public__tags_key_not_null

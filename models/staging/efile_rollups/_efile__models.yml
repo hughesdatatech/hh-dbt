@@ -1,0 +1,21 @@
+version: 2
+
+models:
+
+  # Efile Rollups
+  - name: stg_efile_rollups__eligible_lives
+    columns:
+      - name: marketing_id
+        tests:
+          - not_null:
+              name: _audit_stg_efile_rollups__eligible_lives_marketing_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_stg_efile_rollups__eligible_lives_customer_id_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_stg_efile_rollups__eligible_lives_key_unique
+        combination_of_columns:
+          - marketing_id
+          - customer_id

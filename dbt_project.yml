@@ -1,0 +1,163 @@
+name: 'hh_analytics'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'default'
+
+# These configurations specify where dbt should look for different types of files.
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+dispatch:
+  - macro_namespace: dbt
+    search_order: ['dbt_project_evaluator', 'dbt']
+
+on-run-start: "{{ store_process_log_event(event='invocation_on_run_start') }}"
+
+on-run-end: "{{ store_process_log_event(event='invocation_on_run_end') }}"
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+models:
+  dbt_project_evaluator:
+    +enabled: "{{ env_var('DBT_CLOUD_PROJECT_EVALUATOR_ENABLED', 'true') | lower == 'true' | as_bool }}"
+    
+  hh_analytics:
+    staging:
+      +enabled: true
+      +materialized: view
+      +tags:
+        - "core_model"
+    intermediate:
+      +enabled: true
+      +materialized: view
+      _demo1:
+        +enabled: false
+        +tags:
+          - "demo_model"
+      core:
+        +tags:
+          - "core_model"
+      finance:
+        +tags:
+          - "finance_model"
+      forecasting:
+        +tags:
+          - "forecasting_model"
+    marts:
+      +enabled: true
+      +materialized: table
+      dimensions:
+        +tags:
+          - "core_model"
+      facts:
+        core:
+          +tags:
+            - "core_model"
+        finance:
+          +tags:
+            - "finance_model"
+          legacy:
+            +materialized: view
+        forecasting:
+          +tags:
+            - "forecasting_model"
+      other:
+        rpt_marts:
+          +tags:
+            - "forecasting_model"
+        rpt_marts_legacy:
+          +tags:
+              - "forecasting_model"
+
+snapshots:
+  hh_analytics:
+    facts:
+      forecasting:
+        +tags:
+          - "forecasting_model"
+    other:
+      rpt_marts:
+        +tags:
+          - "forecasting_model"
+      rpt_marts_legacy:
+        +tags:
+            - "forecasting_model"
+
+seeds:
+  dbt_project_evaluator:
+    dbt_project_evaluator_exceptions:
+      +enabled: false
+
+tests:
+  dbt_project_evaluator:
+    +severity: "{{ env_var('DBT_CLOUD_PROJECT_EVALUATOR_SEVERITY', 'warn') }}"
+  +store_failures: "{{ env_var('DBT_CLOUD_STORE_FAILURES', 'true') | lower == 'true' | as_bool }}"
+  +severity: warn  # default severity for all tests
+  +schema: dbt_audit # schema used to store test failures when running in prod
+
+vars:
+
+  # Key dates used throughout trailing / unattributed sql and python models.
+  trailing_unattributed_multiplier_key_date_1: '2020-01-01'
+  trailing_unattributed_multiplier_key_date_2: '2020-04-01'
+  trailing_unattributed_multiplier_key_date_3: '2021-01-01'
+  trailing_unattributed_multiplier_key_date_4: '2024-12-31'
+
+  # Configuration used for yield models.
+  yield_training_start_touchpoint_sent_at: '2021-01-01'
+
+  # Min / Max dates for dim_dates.
+  dim_dates_min_date: '2015-01-01'
+  dim_dates_max_date: '2059-12-31'
+
+  # Default values for DW metadata-related columns.
+  tenant_keys:
+    1: default
+
+  sanding_value: '||'
+
+  job_id_default: default
+
+  job_user_id_default: dbt Cloud user
+
+  jira_task_key_default: default
+
+  extracted_at_default: current_timestamp()
+
+  process_log: fct_process_log
+
+  prod_schema: dbt_prod
+
+  audit_schema: dbt_audit
+
+  'dbt_date:time_zone': 'Etc/UTC'
+
+  # Configuration for dbt_project_evaluator
+  dbt_project_evaluator:
+    model_types: ['staging', 'intermediate', 'marts', 'other', 'rve']
+    rve_folder_name: 'raw_vault'
+    rve_prefixes: ['rve_']
+    other_folder_name: 'other'
+    other_prefixes: ['rpt_']
+    chained_views_threshold: 8
+
+  # Invalid Account / Customer combinations
+  account_client_exclusion_list: "''"
+
+  # Run metadata
+  # Production forecast runs should pass this to the build command: --vars '{"run_vars_metadata": "prod_forecast_run"}'
+  run_vars_metadata: ""
+
+  # Metadata value used to distinguish production from sandbox forecast runs
+  prod_forecast_run_metadata: prod_forecast_run

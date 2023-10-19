@@ -1,0 +1,152 @@
+version: 2
+
+sources:
+  - name: hh_db_public
+    tags: ['core_model']
+    schema: public
+    description: Core/main Hinge Health data from the public schema.
+
+    tables:
+      - name: public_client_configurations
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_client_configurations_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_clients
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_clients_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_clients_insurers
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_clients_insurers_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_clients_insurers_partnerships
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_clients_insurers_partnerships_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_insurers
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_insurers_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_line_of_business
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_line_of_business_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_users
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_users_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_partnerships
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_partnerships_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_pathways
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_pathways_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_program_indications
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_program_indications_data_freshness
+                datepart: day
+                interval: 180 # this table is not expected to be frequently inserted or updated
+
+      - name: public_recruitments
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_recruitments_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_screening_events
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_screening_events_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_screenings
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_screenings_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_subscriptions
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_subscriptions_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_taggings
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_taggings_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: public_tags
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_public_public_tags_data_freshness
+                datepart: day
+                interval: 1

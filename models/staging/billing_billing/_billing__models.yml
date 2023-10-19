@@ -1,0 +1,84 @@
+version: 2
+
+models:
+
+  # Billing 
+  - name: stg_billing_billing__applied_discounts
+    columns:
+      - name: applied_discount_id
+        tests:
+          - unique:
+              name: _audit_stg_billing_billing__applied_discounts_key_unique
+          - not_null:
+              name: _audit_stg_billing_billing__applied_discounts_key_not_null
+
+  - name: stg_billing_billing__archive
+    columns:
+      - name: archive_id
+        tests:
+          - unique:
+              name: _audit_stg_billing_billing__archive_key_unique
+          - not_null:
+              name: _audit_stg_billing_billing__archive_key_not_null
+
+  - name: stg_billing_billing__billing_subscriptions
+    columns:
+      - name: subscription_id
+        tests:
+          - unique:
+              name: _audit_stg_billing_billing__billing_subscriptions_key_unique
+          - not_null:
+              name: _audit_stg_billing_billing__billing_subscriptions_key_not_null
+
+  - name: stg_billing_billing__bills
+    columns:
+      - name: bill_id
+        tests:
+          - unique:
+              name: _audit_stg_billing_billing__bills_key_unique
+          - not_null:
+              name: _audit_stg_billing_billing__bills_key_not_null
+
+  - name: stg_billing_billing__internal_holds
+    columns:
+      - name: bill_id
+        tests:
+          - not_null:
+              name: _audit_stg_billing_billing__internal_holds_key_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_stg_billing_billing__internal_holds_key_unique
+          combination_of_columns:
+            - bill_id
+            - hold_type
+
+  - name: stg_billing_billing__remits
+    columns:
+      - name: remit_id
+        tests:
+          - unique:
+              name: _audit_stg_billing_billing__remits_key_unique
+          - not_null:
+              name: _audit_stg_billing_billing__remits_key_not_null
+
+  - name: stg_billing_billing__submissions
+    columns:
+      - name: submission_id
+        tests:
+          - unique:
+              name: _audit_stg_billing_billing__submissions_key_unique
+          - not_null:
+              name: _audit_stg_billing_billing__submissions_key_not_null
+      - name: submission_status
+        tests:
+          - not_null:
+              name: _audit_stg_billing_billing__submissions_submission_status_not_null
+
+  - name: stg_billing_billing__write_offs
+    columns:
+      - name: write_off_id
+        tests:
+          - unique:
+              name: _audit_stg_billing_billing__write_offs_key_unique
+          - not_null:
+              name: _audit_stg_billing_billing__write_offs_key_not_null

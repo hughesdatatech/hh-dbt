@@ -1,0 +1,37 @@
+version: 2
+
+models:
+
+  - name: int_py_predicted_unattributed_multipliers
+    description: >
+      Linear regression to predict unattributed multipliers by month from 2020 through 2024.
+    config:
+      materialized: table
+      start_date: "{{ var('trailing_unattributed_multiplier_key_date_1') }}"
+      end_date: "{{ var('trailing_unattributed_multiplier_key_date_4') }}"
+      submission_method: "{{ env_var('DBT_CLOUD_COMPUTE_CLUSTER_SUBMISSION_METHOD') }}"
+      create_notebook: True
+      cluster_id: "{{ env_var('DBT_CLOUD_COMPUTE_CLUSTER_ID') }}"
+    columns:
+      - name: activity_month_at
+        tests:
+          - not_null:
+              name: _audit_int_py_predicted_unattributed_multipliers_key_not_null
+          - unique:
+              name: _audit_int_py_predicted_unattributed_multipliers_key_unique
+
+  - name: int_py_predicted_touchpoint_conversion_rates
+    description: >
+      Weighted least squares regression to predict conversion rates by touchpoint.
+    config:
+      materialized: table
+      submission_method: "{{ env_var('DBT_CLOUD_COMPUTE_CLUSTER_SUBMISSION_METHOD') }}"
+      create_notebook: True
+      cluster_id: "{{ env_var('DBT_CLOUD_COMPUTE_CLUSTER_ID') }}"
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_py_predicted_touchpoint_conversion_rates_key_not_null
+          - unique:
+              name: _audit_int_py_predicted_touchpoint_conversion_rates_key_unique

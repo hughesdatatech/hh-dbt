@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: efile_rollups
+    tags: ['core_model']
+    schema: rollups
+    description: Efile data from the rollups schema.
+
+    tables:
+      - name: eligible_lives
+        columns:
+        - name: updated_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_efile_rollups_eligible_lives_data_freshness
+                datepart: day
+                interval: 1

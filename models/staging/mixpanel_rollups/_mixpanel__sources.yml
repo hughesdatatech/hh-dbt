@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: mixpanel_rollups
+    tags: ['core_model']
+    schema: rollups
+    description: Mixpanel data from the rollups schema.
+
+    tables:
+      - name: mixpanel_pathway_attribution
+        columns:
+          - name: occurred_at
+            tests:
+              - dbt_expectations.expect_row_values_to_have_recent_data:
+                  name: _audit_mixpanel_rollups_mixpanel_pathway_attribution_data_freshness
+                  datepart: day
+                  interval: 2

@@ -1,0 +1,23 @@
+version: 2
+
+snapshots:
+
+  - name: rpt_marketing_touchpoints_consolidated_snapshot
+    description: >
+      Historical record of all rpt_marketing_touchpoints_consolidated data.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_rpt_marketing_touchpoints_consolidated_snapshot_base_rpt_match
+          compare_model: ref("rpt_marketing_touchpoints_consolidated")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: rpt_observed_conversions_snapshot
+    description: >
+      Historical record of all rpt_observed_conversions data.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_rpt_observed_conversions_snapshot_base_rpt_match
+          compare_model: ref("rpt_observed_conversions")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"

@@ -1,0 +1,160 @@
+version: 2
+
+models:
+  - name: fct_accrual_timing_curve
+    description: >
+      The accrual timing curve is a count of the number of members who converted 
+      (sourced from observed conversions), grouped by the number of days it took 
+      them to convert, and the type of communication the member converted 
+      from (either email or customer communication). This table is leveraged
+      further downstream in the forecasting process.
+    columns:
+      - name: accrual_timing_curve_key
+        tests:
+        - not_null:
+            name: _audit_fct_accrual_timing_curve_key_not_null
+        - unique:
+            name: _audit_fct_accrual_timing_curve_key_unique
+
+  - name: fct_customer_trailing_unattributed_multipliers
+    description: >
+      Trailing multipliers are sourced from a SQL model whereas unattributed 
+      multipliers are sourced from a python model. This model brings the two 
+      together at the customer level, by month. This table is leveraged
+      further downstream in the forecasting process.
+    columns:
+      - name: customer_trailing_unattributed_multiplier_key
+        tests:
+        - not_null:
+            name: _audit_fct_customer_trailing_unattributed_multipliers_key_not_null
+        - unique:
+            name: _audit_fct_customer_trailing_unattributed_multipliers_key_unique
+
+  - name: fct_forecasted_accrued_customer_touchpoint_conversions
+    description: >
+      Brings together accrual timing curve, and predicted touchpoint conversion
+      rate data to calculate forecasted conversions at the customer 
+      touchpoint level, by date.
+    columns:
+      - name: forecasted_accrued_customer_touchpoint_conversion_key
+        tests:
+        - not_null:
+            name: _audit_fct_forecasted_accrued_customer_touchpoint_conversions_key_not_null
+        - unique:
+            name: _audit_fct_forecasted_accrued_customer_touchpoint_conversions_key_unique
+
+  - name: fct_forecasted_attributed_customer_touchpoint_conversions
+    description: >
+      Brings together forecasted attributed conversions for chronic, and 
+      acute programs at the customer touchpoint level, by date.
+    columns:
+      - name: forecasted_attributed_customer_touchpoint_conversion_key
+        tests:
+        - not_null:
+            name: _audit_fct_forecasted_attributed_customer_touchpoint_conversions_key_not_null
+        - unique:
+            name: _audit_fct_forecasted_attributed_customer_touchpoint_conversions_key_unique
+
+  - name: fct_forecasted_customer_conversions
+    description: >
+      Brings together forecasted trailing, unattributed, enso, and 
+      y2 signup conversions at the customer level, by date.
+    columns:
+      - name: forecasted_customer_conversion_key
+        tests:
+        - not_null:
+            name: _audit_fct_forecasted_customer_conversions_key_not_null
+        - unique:
+            name: _audit_fct_forecasted_customer_conversions_key_unique
+
+  - name: fct_forecasted_other_conversions
+    description: >
+      Brings together forecasted other, and unplanned conversions.
+      This is a catch-all bucket for miscellaneous additions, and
+      adjustments, by date.
+    columns:
+      - name: forecasted_other_conversion_key
+        tests:
+        - not_null:
+            name: _audit_fct_forecasted_other_conversions_key_not_null
+        - unique:
+            name: _audit_fct_forecasted_other_conversions_key_unique
+
+  - name: fct_forecasted_touchpoint_conversions
+    description: >
+      A summary built off of fct_forecasted_attributed_customer_touchpoint_conversions.
+      Provides the same forecasts but aggregated to the customer touchpoint level.
+    columns:
+      - name: touchpoint_key
+        tests:
+        - not_null:
+            name: _audit_fct_forecasted_touchpoint_conversions_key_not_null
+        - unique:
+            name: _audit_fct_forecasted_touchpoint_conversions_key_unique
+  
+  - name: fct_forecasted_y2_member_conversions
+    description: >
+      Forecasted y2 signup conversions at the member level, by date.
+    columns:
+      - name: forecasted_y2_member_conversion_key
+        tests:
+        - not_null:
+            name: _audit_fct_forecasted_y2_member_conversions_key_not_null
+        - unique:
+            name: _audit_fct_forecasted_y2_member_conversions_key_unique
+
+  - name: fct_marketing_touchpoints_consolidated
+    description: >
+      Brings together base-level marketing touchpoints, and observed conversions data
+      to approximate the scheduled sends for each touchpoint (as opposed to using actual figures),
+      at the customer touchpoint level. This data is then used by downstream models
+      primarily for predicting conversion rates.
+    columns:
+        - name: touchpoint_key
+          tests:
+          - not_null:
+              name: _audit_fct_marketing_touchpoints_consolidated_key_not_null
+          - unique:
+              name: _audit_fct_marketing_touchpoints_consolidated_key_unique
+
+  - name: fct_observed_conversions
+    description: >
+      Conversion data built primarily from a rollups table that has already
+      calculated and attributed the conversions, at the member level.
+    columns:
+      - name: observed_conversion_key
+        tests:
+        - not_null:
+            name: _audit_fct_observed_conversions_key_not_null
+        - unique:
+            name: _audit_fct_observed_conversions_key_unique
+
+  - name: fct_predicted_touchpoint_conversion_rates
+    description: >
+      Predicted conversion rates, at the touchpoint level.
+    columns:
+      - name: touchpoint_key
+        tests:
+        - not_null:
+            name: _audit_fct_predicted_touchpoint_conversion_rates_key_not_null
+        - unique:
+            name: _audit_fct_predicted_touchpoint_conversion_rates_key_unique
+
+  - name: fct_throttled_touchpoints
+    description: >
+      Estimates which touchpoints are likely to be throttled. Touchpoints are throttled 
+      for new customers if they represent 70% of the customers users on teams goal for 
+      the year, and are in the first half of the year, or if they hit 140% of the uot 
+      goal in the second half of the year. Customers with a hard cap are not throttled 
+      until they go over their hard cap (ignores 70% rule from above and is agnostic 
+      to half). Legacy customers without a hard cap target 140% of their yearly uot 
+      goal, and do not throttle until they hit that mark (regardless of half). Note that 
+      this table contains a flag indicating if a given touchpoint is expected to be 
+      throttled. In other words, it contains non-throttled touchpoints as well.
+    columns:
+      - name: touchpoint_key
+        tests:
+        - not_null:
+            name: _audit_fct_throttled_touchpoints_key_not_null
+        - unique:
+            name: _audit_fct_throttled_touchpoints_key_unique

@@ -1,0 +1,46 @@
+version: 2
+
+models:
+
+  - name: int_accounts
+    description: >
+      Provides rules used to build the Accounts dimension.
+      Currently based on a simple select from the underlying
+      rollups staging model. This model is to be developed
+      over time.
+    columns:
+      - name: account_id
+        tests:
+          - unique:
+              name: _audit_int_accounts_key_unique
+          - not_null:
+              name: _audit_int_accounts_key_not_null
+
+  - name: int_customers
+    description: >
+      Provides rules used to build the Customers dimension.
+      In addition to base customer data, provides aggregated
+      efile, mailchimp, and iterable counts, and attributes
+      derived from other sources. This model is to be
+      developed over time.
+    columns:
+      - name: customer_id
+        tests:
+          - unique:
+              name: _audit_int_customers_key_unique
+          - not_null:
+              name: _audit_int_customers_key_not_null
+
+  - name: int_members
+    description: >
+      Provides rules used to build the Members dimension.
+      Combines a limited set of attributes from base member,
+      rollup, and efile data sources. This model is to be
+      developed over time.
+    columns:
+      - name: member_id
+        tests:
+          - unique:
+              name: _audit_int_members_key_unique
+          - not_null:
+              name: _audit_int_members_key_not_null

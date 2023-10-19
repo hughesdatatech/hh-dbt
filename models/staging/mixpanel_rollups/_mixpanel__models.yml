@@ -1,0 +1,13 @@
+version: 2
+
+models:
+
+  # Mixpanel Rollups
+  - name: stg_mixpanel_rollups__pathway_attributions
+    columns:
+      - name: pathway_id
+        tests:
+          - unique:
+              name: _audit_stg_mixpanel_rollups__pathway_attributions_key_unique
+          - not_null:
+              name: _audit_stg_mixpanel_rollups__pathway_attributions_key_not_null

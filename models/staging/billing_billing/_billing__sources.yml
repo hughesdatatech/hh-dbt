@@ -1,0 +1,86 @@
+version: 2
+
+sources:
+  - name: billing_billing
+    tags: ['core_model']
+    schema: billing
+    description: Billing data from the billing schema.
+
+    freshness: # default freshness
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    loaded_at_field: __ingested_at
+
+    tables:
+      - name: billing_applied_discounts
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_billing_billing_applied_discounts_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: billing_archive
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_billing_billing_archive_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: billing_subscriptions
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_billing_billing_billing_subscriptions_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: billing_bills
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_billing_billing_bills_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: billing_internal_holds
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_billing_billing_internal_holds_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: billing_remits
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_billing_billing_remits_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: billing_submissions
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_billing_billing_submissions_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: billing_write_offs
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_billing_billing_write_offs_data_freshness
+                datepart: day
+                interval: 1

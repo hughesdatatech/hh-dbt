@@ -1,0 +1,62 @@
+version: 2
+
+models:
+
+  - name: demo_signups_source1
+    description: >
+      The source of truth for all signups.
+    columns:
+      - name: load_date_at
+        description: Date when the data was loaded.
+        tests:
+          - dbt_expectations.expect_row_values_to_have_recent_data: # table shape test
+              name: _audit_demo_signups_source1_data_freshness
+              datepart: day
+              interval: 1 # expect data to be no older than 1 day
+              config:
+                  severity: warn
+      - name: activity_date_at
+        description: Date when the signup occurred.
+      - name: signups
+        description: Total number of signups for the given date.
+
+  - name: fact_forecasted_signups1
+    description: >
+      Forecasted signups for next year using the current
+      year as a baseline, model version 1.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table: # table shape test
+          name: _audit_demo_forecasted_signups1_expected_row_count
+          compare_model: ref("demo_signups_source1")
+          config:
+              severity: warn
+    columns:
+      - name: activity_date_at
+        description: Date when the signups are forecasted to occur.
+      - name: forecasted_signups
+        description: >
+          Forecasted signups for next year.
+          This metric is calculated by taking the signups for the current year,
+          multipled by a pre-defined factor of 50%, with adjustments
+          applied for cannibalization by other programs. 
+
+  - name: fact_forecasted_signups2
+    description: >
+      Forecasted signups for next year using the current
+      year as a baseline, model version 2.
+    columns:
+      - name: activity_date_at
+        description: Date when the signups are forecasted to occur.
+        tests:
+          - unique:
+              name: _audit_demo_forecasted_signups2_activity_date_at_unique
+          - not_null:
+              name: _audit_demo_forecasted_signups2_activity_date_at_not_null
+      - name: forecasted_signups
+        description: >
+          This metric is calculated by taking the signups for the current year,
+          multipled by a pre-defined factor of 70%, with adjustments
+          applied for cannibalization by other programs. 
+        tests:
+          - not_null:
+              name: _audit_demo_forecasted_signups2_forecasted_signups_not_null

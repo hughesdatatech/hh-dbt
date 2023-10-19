@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  
+  - name: int_enso_hcsc_backlog
+    description: >
+      Adds in enso backlog volume to the forecast from hcsc 
+      not accounted for in the other portion of the enso forecast.
+      Business performance team has requested 1200 for week of 2023-01-16, 
+      and 700 each for weeks of 2023-01-24, and 2023-01-31 on top 
+      of current enso volume.
+    columns:
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_enso_hcsc_backlog_key_not_null
+      - name: activity_date_at
+        tests:
+          - unique:
+              name: _audit_int_enso_hcsc_backlog_key_unique
+
+  - name: int_okr_additions
+    description: >
+      Adds in topline adjustments for international, 
+      veterans affairs, and intra-year okrs.
+      Data is limited to 2023.
+    columns:
+      - name: adjustment_type
+        tests:
+          - not_null:
+              name: _audit_int_okr_additions_adjustment_type_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_okr_additions_activity_date_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_okr_additions_key_unique
+        combination_of_columns:
+          - adjustment_type
+          - activity_date_at
+
+  - name: int_unplanned_touchpoints
+    description: >
+      Adds in estimates for unplanned (a.k.a. sneaky) touchpoints 
+      not accounted for until after their scheduled send date.
+      Filtered to use touchpoints with history starting from 2021-11-15, 
+      and observed conversions starting from 2022-01-01.
+    columns:
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_unplanned_touchpoints_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_unplanned_touchpoints_activity_date_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_unplanned_touchpoints_key_unique
+        combination_of_columns:
+          - program
+          - activity_date_at

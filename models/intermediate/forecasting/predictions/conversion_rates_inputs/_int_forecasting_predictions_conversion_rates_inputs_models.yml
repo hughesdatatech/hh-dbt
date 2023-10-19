@@ -1,0 +1,39 @@
+version: 2
+
+models:
+
+  - name: int_yield_all_touchpoints
+    description: >
+      Full touchpoint dataset the WLS conversion 
+      rate model is run against.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_yield_all_touchpoints_key_not_null
+          - unique:
+              name: _audit_int_yield_all_touchpoints_key_unique
+
+  - name: int_yield_first_deployments
+    description: >
+      Used for training and testing of the WLS model that predicts 
+      conversion rates for first deployment touchpoints.  
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_yield_first_deployments_key_not_null
+          - unique:
+              name: _audit_int_yield_first_deployments_key_unique
+
+  - name: int_yield_repeat_deployments
+    description: >
+      Used for training and testing of the WLS model that predicts 
+      conversion rates for repeat deployment touchpoints.  
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_yield_repeat_deployments_key_not_null
+          - unique:
+              name: _audit_int_yield_repeat_deployments_key_unique

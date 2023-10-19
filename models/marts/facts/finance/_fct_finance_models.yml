@@ -1,0 +1,33 @@
+version: 2
+
+models:
+
+  - name: fct_bill_payments
+    description: >
+    columns:
+      - name: bill_payment_key
+        tests:
+        - not_null:
+            name: _audit_fct_bill_payments_key_not_null
+        - unique:
+            name: _audit_fct_bill_payments_key_unique
+
+  - name: fct_billable_subscriptions
+    description: >
+    columns:
+      - name: billable_subscription_key
+        tests:
+        - not_null:
+            name: _audit_fct_billable_subscriptions_key_not_null
+        - unique:
+            name: _audit_fct_billable_subscriptions_key_unique
+
+  - name: fct_submitted_bills
+    description: >
+    columns:
+      - name: submitted_bill_key
+        tests:
+        - not_null:
+            name: _audit_fct_submitted_bills_key_not_null
+        - unique:
+            name: _audit_fct_submitted_bills_key_unique

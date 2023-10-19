@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  
+  - name: int_partnerships_joined_to_customers_insurers
+    description: >
+    columns:
+      - name: customer_insurer_id
+        tests:
+          - not_null:
+              name: _audit_int_partnerships_joined_to_customers_insurers_customer_insurer_id_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_partnerships_joined_to_customers_insurers_key_unique
+        combination_of_columns:
+          - customer_insurer_id
+          - contract_id
+          - partnership_id

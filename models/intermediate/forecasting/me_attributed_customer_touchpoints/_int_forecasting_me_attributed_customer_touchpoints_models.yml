@@ -1,0 +1,241 @@
+version: 2
+
+models:
+
+  - name: int_acute_core
+    description: >
+      Estimates organic acute core touchpoint conversions,
+      with adjustments applied for cannibalization 
+      by computer vision.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_acute_core_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at
+
+  - name: int_chronic_all
+    description: >
+      Combines all non-base chronic models and applies an
+      adjustment to the estimated touchpoint conversions based 
+      on estimated percent lift from aq shortening, and 
+      automation of clinical review.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_all_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_all_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_chronic_all_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_all_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_all_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_chronic_all_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_chronic_all_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at
+
+  - name: int_chronic_core_cv_only
+    description: >
+      Estimates organic chronic core touchpoint conversions, with
+      adjustments applied for cannibalization by womens pelvic health. 
+      Also includes estimated incremental computer vision only touchpoint 
+      conversions, due to new pathway options when acute is not available.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_cv_only_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_cv_only_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_cv_only_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_cv_only_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_cv_only_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_cv_only_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_chronic_core_cv_only_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at
+
+  - name: int_chronic_cv_only_cannibals
+    description: >
+      Estimates touchpoint conversions that will be 
+      cannabilized from acute core by computer vision.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_cv_only_cannibals_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_cv_only_cannibals_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_chronic_cv_only_cannibals_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_cv_only_cannibals_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_cv_only_cannibals_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_chronic_cv_only_cannibals_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_chronic_cv_only_cannibals_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at
+
+  - name: int_chronic_wph
+    description: >
+      Estimates organic womens pelvic health touchpoint conversions.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_chronic_wph_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at
+  
+  - name: int_chronic_wph_cannibals
+    description: >
+      Estimates touchpoint conversions that will be 
+      cannabilized from chronic core by womens pelvic health.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_cannibals_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_cannibals_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_cannibals_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_cannibals_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_cannibals_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_cannibals_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_chronic_wph_cannibals_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at

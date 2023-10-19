@@ -1,0 +1,175 @@
+version: 2
+
+seeds:
+  - name: ref_forecast_cancellation_timing_curve
+    description: >
+      Manually updated and maintained factors (created with input from 
+      the business, and algorithmic models?), used to adjust various forecasts
+      by a percentage based on how many days until a given touchpoint is sent,
+      and the touchpoint status.
+    config:
+      column_types:
+        days_to_send: integer
+        touchpoint_status: string
+        pct_of_cancellation_to_apply: double
+        forecast_year: integer
+    columns:
+      - name: days_to_send
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_cancellation_timing_curve_days_to_send_not_null
+      - name: touchpoint_status
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_cancellation_timing_curve_touchpoint_status_not_null
+      - name: pct_of_cancellation_to_apply
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_cancellation_timing_curve_pct_of_cancellation_to_apply_not_null
+      - name: forecast_year
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_cancellation_timing_curve_forecast_year_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_ref_forecast_cancellation_timing_curve_key_unique
+        combination_of_columns:
+          - days_to_send
+          - touchpoint_status
+          - forecast_year
+
+  - name: ref_forecast_demo_predefined_multiplier_scd
+    description: >
+      Seed model created for demonstration purposes.
+    config:
+        enabled: false
+
+  - name: ref_forecast_hard_coded_multiplier_scd
+    description: >
+      Manually updated and maintained multipliers (created with input from 
+      the business), used to drive various forecasts. This model acts like 
+      a type-2 slowly changing dimension in the sense that certain multipliers
+      are effective only over a certain period of time.
+    config:
+      column_types:
+        field_name: string
+        value: double
+        signups_starting: date
+        signups_ending: date
+        valid_from: date
+        valid_through: date
+    columns:
+      - name: field_name
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_hard_coded_multiplier_scd_field_name_not_null
+        - accepted_values:
+            name: _audit_ref_forecast_hard_coded_multiplier_scd_field_name_valid_values
+            values: ['acute_to_chronic_ratio', 'pct_incremental_chronic_from_ecp', 'enso_backlog_for_hcsc', 
+                    'pct_y2_cannibalized_into_enso', 'pct_acute_cannibalized_to_chronic_from_ecp', 'y2_renewal_rate', 
+                    'pct_lift_for_automating_clinical_review', 'pct_incremental_chronic_from_reassignment', 'pct_lift_for_aq_shortening', 
+                    'y1_onboarding_rate_for_y2', 'pct_acute_cannibalized_to_chronic_from_reassignment', 'wph_to_chronic_ratio', 
+                    'pct_onboarded_y1_renewing_into_enso', 'pct_wph_cannibalized_from_chronic', 'enso_lift_sonj']
+      - name: value
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_hard_coded_multiplier_scd_value_not_null
+      - name: signups_starting
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_hard_coded_multiplier_scd_signups_starting_not_null
+      - name: signups_ending
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_hard_coded_multiplier_scd_signups_ending_not_null
+      - name: valid_from
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_hard_coded_multiplier_scd_valid_from_not_null
+      - name: valid_through
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_hard_coded_multiplier_scd_valid_valid_through_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_ref_forecast_hard_coded_multiplier_scd_key_unique
+        combination_of_columns:
+          - field_name
+          - signups_starting
+          - signups_ending
+
+  - name: ref_forecast_legacy_unattributed_multipliers
+    description: >
+      One-time pull of unattributed multipliers from Postgres,
+      to be used for testing and comparison purposes.
+    config:
+      column_types:
+        activity_month_at: date
+        months_since_2020: integer
+        unattributed_conversion_count: integer
+        unattributed_multiplier: double
+    columns:
+      - name: activity_month_at
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_legacy_unattributed_multipliers_key_not_null
+        - unique:
+            name: _audit_ref_forecast_legacy_unattributed_multipliers_key_unique
+
+  - name: ref_forecast_okr_additions
+    description: >
+      Manually updated, and maintained data used to drive okr forecasts for 2022.
+    config:
+      column_types:
+        event_week: date
+        legacy_chronic: double
+        y2_organic: double
+        enso_forecast: double
+    columns:
+      - name: event_week
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_okr_additions_event_week_not_null
+        - unique:
+            name: _audit_ref_forecast_okr_additions_event_week_unique
+      - name: legacy_chronic
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_okr_additions_legacy_chronic_not_null
+      - name: y2_organic
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_okr_additions_y2_organic_not_null
+      - name: enso_forecast
+        tests:
+        - not_null:
+            name: _audit_ref_forecast_okr_additions_enso_forecast_not_null
+
+  - name: ref_iterable_customers_to_master_customers_xwalk
+    description: >
+      This model was created based on manually running parts of the legacy forecast
+      process that attempted to match iterable members to customers when there
+      was missing data, using similarity functions, etc. The similarity function 
+      does not exist in Databricks. Think of this model as a one-time data load
+      of a lookup table to be used to maintain parity with the existing customer
+      matching process, until a new matching process can be implemented.
+    config:
+      column_types:
+        iterable_lower_customer_identifier_short: string
+        master_customer_identifier: string
+        master_customer_id: integer
+        master_customer_name: string
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          name: _audit_ref_iterable_customers_to_master_customers_xwalk_row_count
+          min_value: 100
+          strictly: false
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_ref_iterable_customers_to_master_customers_xwalk_key_unique
+          combination_of_columns:
+            - iterable_lower_customer_identifier_short
+            - master_customer_id
+
+
+
+

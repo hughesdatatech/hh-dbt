@@ -1,0 +1,13 @@
+version: 2
+
+models:
+
+  # Iterable Rollups
+  - name: stg_iterable_rollups__members
+    columns:  
+      - name: email_address
+        tests:
+          - unique:
+              name: _audit_stg_iterable_rollups__members_key_unique
+          - not_null:
+              name: _audit_stg_iterable_rollups__members_key_not_null

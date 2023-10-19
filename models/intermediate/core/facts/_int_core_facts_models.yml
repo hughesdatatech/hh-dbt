@@ -1,0 +1,64 @@
+version: 2
+
+models:
+
+  - name: int_deployments
+    description: >
+      Base level Deployments fact table.
+      This model is to be developed over time.
+    columns:
+      - name: deployment_id
+        tests:
+          - not_null:
+              name: _audit_int_deployments_key_not_null
+          - unique:
+              name: _audit_int_deployments_key_unique
+
+
+  - name: int_marketing_touchpoints
+    description: >
+      Base level Marketing Touchpoints fact table.
+      This model is to be developed over time.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_marketing_touchpoints_key_not_null
+          - unique:
+              name: _audit_int_marketing_touchpoints_key_unique
+
+  - name: int_opportunities
+    description: >
+      Base level Opportunities fact table.
+      This model is to be developed over time.
+    columns:
+      - name: opportunity_id
+        tests:
+          - not_null:
+              name: _audit_int_opportunities_key_not_null
+          - unique:
+              name: _audit_int_opportunities_key_unique
+
+  - name: int_pathways
+    description: >
+      Base level Pathways fact table.
+      This model is to be developed over time.
+    columns:
+      - name: pathway_id
+        tests:
+          - not_null:
+              name: _audit_int_pathways_key_not_null
+          - unique:
+              name: _audit_int_pathways_key_unique
+
+  - name: int_screenings
+    description: >
+      Base level Screenings fact table.
+      This model is to be developed over time.
+    columns:
+      - name: screening_id
+        tests:
+          - not_null:
+              name: _audit_int_screenings_key_not_null
+          - unique:
+              name: _audit_int_screenings_key_unique

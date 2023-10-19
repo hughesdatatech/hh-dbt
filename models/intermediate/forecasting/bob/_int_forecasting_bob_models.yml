@@ -1,0 +1,54 @@
+version: 2
+
+models:
+
+  - name: int_bob_averages_by_customer
+    description: >
+      Provides book of business totals and percentages
+      by customer_id.
+    columns:
+      - name: customer_id
+        tests:
+          - unique:
+              name: _audit_int_bob_averages_by_customer_key_unique
+          - not_null:
+              name: _audit_int_bob_averages_by_customer_key_not_null
+
+  - name: int_bob_averages_total
+    description: >
+      Provides book of business percentages across
+      all customers.
+    columns:
+      - name: pct_employee
+        tests:
+          - unique:
+              name: _audit_int_bob_averages_total_pct_employee_unique
+          - not_null:
+              name: _audit_int_bob_averages_total_pct_employee_not_null
+      - name: pct_spouse
+        tests:
+          - unique:
+              name: _audit_int_bob_averages_total_pct_spouse_unique
+          - not_null:
+              name: _audit_int_bob_averages_total_pct_spouse_not_null
+      - name: pct_female
+        tests:
+          - unique:
+              name: _audit_int_bob_averages_total_pct_female_unique
+          - not_null:
+              name: _audit_int_bob_averages_total_pct_female_not_null
+
+  - name: int_bob_fill_rates
+    description: >
+      Provides the rules for determining book of business fill rates.
+      Used when customer-specific information is not available.
+      For example, when member lists cannot be directly drawn from efile data, we use 
+      book of business fill rates to determine what percentage of estimated eligible 
+      lives to include in scheduled send calculations.
+    columns:
+      - name: relationship
+        tests:
+          - unique:
+              name: _audit_int_bob_fill_rates_key_unique
+          - not_null:
+              name: _audit_int_bob_fill_rates_key_not_null

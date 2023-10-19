@@ -1,0 +1,58 @@
+version: 2
+
+models:
+
+  # SFDC Rollups
+  - name: stg_sfdc_rollups__accounts
+    columns:
+      - name: account_id
+        tests:
+          - unique:
+              name: _audit_stg_sfdc_rollups__accounts_key_unique
+          - not_null:
+              name: _audit_stg_sfdc_rollups__accounts_key_not_null
+      - name: customer_id
+        tests:
+          - dbt_expectations.expect_column_values_to_be_unique: # If this test errors it means there is a dupe customer_id we have not temporarily handled for exclusion.
+              name: _audit_stg_sfdc_rollups__accounts_customer_id_unique
+              row_condition: "nullif(customer_id, 0) is not null"
+              config:
+                  severity: error
+      - name: sf_client_id
+        tests:
+          - dbt_expectations.expect_column_values_to_be_unique: # We always warn on duplicate sf_client_ids so that we are aware of what has not been corrected in the source.
+              name: _audit_stg_sfdc_rollups__accounts_sf_client_id_unique
+              row_condition: "nullif(sf_client_id, 0) is not null"
+          - relationships: # Expect all non-zero sf_client_ids to exist in the parent customers table, and warn if they do not.
+              name: _audit_stg_sfdc_rollups__accounts_sf_client_id_customer_id_ri_check
+              to: ref("stg_hh_db_public__customers")
+              field: customer_id
+              config:
+                where: "nullif(sf_client_id, 0) is not null"
+
+  - name: stg_sfdc_rollups__deployments
+    columns:
+    - name: deployment_id
+      tests:
+        - unique:
+            name: _audit_stg_sfdc_rollups__deployments_key_unique
+        - not_null:
+            name: _audit_stg_sfdc_rollups__deployments_key_not_null
+
+  - name: stg_sfdc_rollups__opportunities
+    columns:
+    - name: opportunity_id
+      tests:
+        - unique:
+            name: _audit_stg_sfdc_rollups__opportunities_key_unique
+        - not_null:
+            name: _audit_stg_sfdc_rollups__opportunities_key_not_null
+
+  - name: stg_sfdc_rollups__marketing_touchpoints
+    columns:
+    - name: touchpoint_id
+      tests:
+        - unique:
+            name: _audit_stg_sfdc_rollups__marketing_touchpoints_key_unique
+        - not_null:
+            name: _audit_stg_sfdc_rollups__marketing_touchpoints_key_not_null

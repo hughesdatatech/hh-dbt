@@ -1,0 +1,23 @@
+version: 2
+
+models:
+
+  # Efile 
+  - name: stg_efile_efile__customers_summary
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_stg_efile_efile__customers_summary_customer_id_not_null
+      - name: insurer_id
+        tests:
+          - not_null:
+              name: _audit_stg_efile_efile__customers_summary_insurer_id_not_null
+      - name: published_at
+        tests:
+          - not_null:
+              name: _audit_stg_efile_efile__customers_summary_published_at_not_null
+      - name: efile_customer_summary_key
+        tests:
+          - dbt_expectations.expect_column_values_to_be_unique:
+              name: _audit_stg_efile_efile__customers_summary_key_unique

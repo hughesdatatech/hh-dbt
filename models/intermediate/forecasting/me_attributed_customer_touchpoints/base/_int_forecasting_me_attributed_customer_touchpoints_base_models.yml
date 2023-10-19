@@ -1,0 +1,161 @@
+version: 2
+
+models:
+
+  - name: int_acute_core_base
+    description: >
+      Base model used by dependent models to estimate
+      acute core conversions.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_base_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_base_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_base_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_base_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_base_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_acute_core_base_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_acute_core_base_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at
+
+  - name: int_chronic_base
+    description: >
+      Base model used by dependent models to estimate
+      chronic conversions.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_base_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_base_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_chronic_base_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_base_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_base_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_chronic_base_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_chronic_base_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at
+  
+  - name: int_chronic_core_base
+    description: >
+      Base model that filters data from the main chronic base
+      model to include core sub program data only.
+      Used by dependent models to estimate core conversions.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_base_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_base_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_base_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_base_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_base_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_chronic_core_base_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_chronic_core_base_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at
+
+  - name: int_chronic_wph_base
+    description: >
+      Base model that filters data from the main chronic base
+      model to include womens pelvic health sub program data only.
+      Used by dependent models to estimate womens pelvic health conversions.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_base_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_base_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_base_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_base_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_base_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_chronic_wph_base_activity_date_at_not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_int_chronic_wph_base_key_unique
+          combination_of_columns:
+            - touchpoint_id
+            - attribution_type
+            - program
+            - sub_program
+            - activity_date_at

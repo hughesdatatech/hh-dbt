@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+
+  - name: efile_efile
+    tags: ['core_model']
+    schema: efile
+    description: Efile data from the efile schema.
+
+    tables:
+      - name: efile_efile_summaries
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_efile_efile_efile_summaries_data_freshness
+                datepart: day
+                interval: 1

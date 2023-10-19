@@ -1,0 +1,61 @@
+version: 2
+
+models:
+
+  - name: int_associated_trailing_unattributed_base
+    description: >
+      Based model used by dependent models to estimate associated
+      trailing, and unattributed conversions.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_associated_trailing_unattributed_base_touchpoint_id_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_associated_trailing_unattributed_base_customer_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_associated_trailing_unattributed_base_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_associated_trailing_unattributed_base_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_associated_trailing_unattributed_base_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_associated_trailing_unattributed_base_activity_date_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_associated_trailing_unattributed_base_key_unique
+        combination_of_columns:
+          - touchpoint_id
+          - attribution_type
+          - program
+          - sub_program
+          - activity_date_at
+
+  - name: int_y2_renewals_base
+    description: >
+      Base model used by dependent models to estimate y2 renewals.
+      Adds in a percentage of subscriptions up for renewal, 
+      with no adjustments applied.
+    tests:
+    - dbt_expectations.expect_compound_columns_to_be_unique:
+          name: _audit_int_y2_renewals_base_y2_renewals_key_unique
+          column_list: ["customer_id", "marketing_id", "member_uuid", "attribution_type", "program", "sub_program", "activity_date_at"]
+          ignore_row_if: "all_values_are_missing" # (Optional. Default is 'all_values_are_missing')
+          quote_columns: false # (Optional)
+          row_condition: "record_source = 'int_y2_renewals_base | y2_renewals'" # (Optional)
+    - dbt_expectations.expect_compound_columns_to_be_unique:
+          name: _audit_int_y2_renewals_base_y2_onboarding_key_unique
+          column_list: ["customer_id", "program", "sub_program", "activity_date_at"]
+          ignore_row_if: "all_values_are_missing" # (Optional. Default is 'all_values_are_missing')
+          quote_columns: false # (Optional)
+          row_condition: "record_source = 'int_y2_renewals_base | y2_onboarding'" # (Optional)

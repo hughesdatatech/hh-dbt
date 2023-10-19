@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: mailchimp_rollups
+    tags: ['core_model']
+    schema: rollups
+    description: Mailchimp data from the rollups schema.
+
+    
+    tables:
+      - name: mailchimp_crosswalk
+        #columns:
+          #- name: TBD
+            #tests:
+              #- dbt_expectations.expect_row_values_to_have_recent_data:
+                  #name: _audit_mailchimp_rollups_mailchimp_crosswalk_data_freshness
+                  #datepart: day
+                  #interval: 1
+                  #row_condition: #optional
+
+      - name: mailchimp_members_view # stg_ model is not implemented, so no tests required

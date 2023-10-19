@@ -1,0 +1,12 @@
+version: 2
+
+models:
+
+  # Mailchimp
+  - name: stg_mailchimp_mailchimp__members
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          name: _audit_stg_mailchimp_mailchimp__members_key_unique
+          combination_of_columns:
+            - mailchimp_member_id
+            - mailchimp_list_id

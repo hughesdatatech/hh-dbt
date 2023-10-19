@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+  - name: xsrc_rollups
+    tags: ['core_model']
+    schema: rollups
+    description: XSRC data from the rollups schema.
+
+    tables:
+      - name: insurance_checks
+        columns:
+          - name: created_at
+            tests:
+              - dbt_expectations.expect_row_values_to_have_recent_data:
+                  name: _audit_xsrc_rollups_insurance_checks_data_freshness
+                  datepart: day
+                  interval: 1
+
+      - name: marketing_events_observed_forecasted
+
+      - name: marketing_touchpoints_historical_dbt
+
+      - name: marketing_events_dbt

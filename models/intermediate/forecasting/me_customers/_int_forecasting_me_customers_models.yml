@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: int_enso
+    description: >
+      Estimates enso conversions as a percentage of y2 renewals,
+      starting from 2022-11-05 moving forward.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_enso_customer_id_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_enso_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_enso_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_enso_activity_date_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_enso_key_unique
+        combination_of_columns:
+          - customer_id
+          - program
+          - sub_program
+          - activity_date_at
+
+  - name: int_trailing_unattributed
+    description: >
+      Estimates trailing and unattributed conversions.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_trailing_unattributed_customer_id_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_trailing_unattributed_activity_date_at_not_null
+      - name: detail_json
+        tests:
+          - not_null:
+              name: _audit_int_trailing_unattributed_detail_json_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_trailing_unattributed_key_unique
+        combination_of_columns:
+          - customer_id
+          - activity_date_at
+          - detail_json
+    
+  - name: int_y2_renewals
+    description: >
+      Estimates y2 renewal conversions, with adjustments
+      applied for cannibalization by enso.
+    tests:
+    - dbt_expectations.expect_compound_columns_to_be_unique:
+        name: _audit_int_y2_renewals_y2_renewals_key_unique
+        column_list: ["customer_id", "marketing_id", "member_uuid", "attribution_type", "program", "sub_program", "activity_date_at"]
+        ignore_row_if: "all_values_are_missing" # (Optional. Default is 'all_values_are_missing')
+        quote_columns: false # (Optional)
+        row_condition: "record_source = 'int_y2_renewals | int_y2_renewals_base | y2_renewals'" # (Optional)
+    - dbt_expectations.expect_compound_columns_to_be_unique:
+        name: _audit_int_y2_renewals_y2_onboarding_key_unique
+        column_list: ["customer_id", "program", "sub_program", "activity_date_at"]
+        ignore_row_if: "all_values_are_missing" # (Optional. Default is 'all_values_are_missing')
+        quote_columns: false # (Optional)
+        row_condition: "record_source = 'int_y2_renewals | int_y2_renewals_base | y2_onboarding'" # (Optional)

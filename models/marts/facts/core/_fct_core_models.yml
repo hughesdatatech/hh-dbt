@@ -1,0 +1,68 @@
+version: 2
+
+models:
+
+  - name: fct_deployments
+    description: >
+      TBD
+    columns:
+      - name: deployment_key
+        tests:
+        - not_null:
+            name: _audit_fct_deployments_key_not_null
+        - unique:
+            name: _audit_fct_deployments_key_unique
+
+  - name: fct_marketing_touchpoints
+    description: >
+    columns:
+      - name: touchpoint_key
+        tests:
+        - not_null:
+            name: _audit_fct_marketing_touchpoints_key_not_null
+        - unique:
+            name: _audit_fct_marketing_touchpoints_key_unique
+
+  - name: fct_marketing_touchpoints_status_tracking
+    description: >
+    columns:
+      - name: touchpoint_key
+        tests:
+        - not_null:
+            name: _audit_fct_marketing_touchpoints_status_tracking_key_not_null
+        - unique:
+            name: _audit_fct_marketing_touchpoints_status_tracking_key_unique
+  
+  - name: fct_opportunities
+    description: >
+      TBD
+    columns:
+      - name: opportunity_key
+        tests:
+        - not_null:
+            name: _audit_fct_opportunities_key_not_null
+        - unique:
+            name: _audit_fct_opportunities_key_unique
+
+  - name: fct_pathways
+    description: >
+      TBD
+    columns:
+      - name: pathway_key
+        tests:
+        - not_null:
+            name: _audit_fct_pathways_key_not_null
+        - unique:
+            name: _audit_fct_pathways_key_unique
+
+  
+  - name: fct_screenings
+    description: >
+      TBD
+    columns:
+      - name: screening_key
+        tests:
+        - not_null:
+            name: _audit_fct_screenings_key_not_null
+        - unique:
+            name: _audit_fct_screenings_key_unique

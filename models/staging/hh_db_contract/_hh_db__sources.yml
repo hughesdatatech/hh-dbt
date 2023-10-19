@@ -1,0 +1,35 @@
+version: 2
+
+sources:
+  - name: hh_db_contract
+    tags: ['core_model']
+    schema: contract
+    description: Core/main Hinge Health data from the contract schema.
+
+    tables:
+      - name: contract_contract
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_contract_contract_contract_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: contract_discount_details
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_contract_contract_discount_details_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: contract_contract_template
+        columns:
+        - name: __ingested_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_contract_contract_contract_template_data_freshness
+                datepart: day
+                interval: 1

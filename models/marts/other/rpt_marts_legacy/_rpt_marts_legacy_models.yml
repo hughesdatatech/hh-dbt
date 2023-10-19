@@ -1,0 +1,54 @@
+version: 2
+
+models:
+
+  - name: rpt_legacy_marketing_events
+    description: >
+      Table materialization of combined scheduled sends, observed conversions, and forecast data.
+      This is a mixed granularity model that pulls together many different event and metric types to create a 
+      single model. Data can be filtered by an activity_type which is a numeric value that has been assigned to 
+      the different types of events and metrics. Renames fields to be compatible with the non-dbt
+      version of marketing_events.
+    columns:
+      - name: legacy_marketing_events_key
+        tests:
+        - not_null:
+            name: _audit_rpt_legacy_marketing_events_key_not_null
+        - dbt_expectations.expect_column_values_to_be_unique:
+            name: _audit_rpt_legacy_marketing_events_key_unique
+            row_condition: "_rpt_legacy_marketing_events_rec_source is distinct from 'stg_xsrc_rollups__marketing_events_dbt'"
+
+  - name: rpt_legacy_marketing_events_sbx
+    description: >
+      Same as model above but includes sandbox run data.
+    columns:
+      - name: legacy_marketing_events_key
+        tests:
+        - not_null:
+            name: _audit_rpt_legacy_marketing_events_sbx_key_not_null
+        - dbt_expectations.expect_column_values_to_be_unique:
+            name: _audit_rpt_legacy_marketing_events_sbx_key_unique
+            row_condition: "_rpt_legacy_marketing_events_rec_source is distinct from 'stg_xsrc_rollups__marketing_events_dbt'"
+
+  - name: rpt_legacy_marketing_touchpoints_historical
+    description: >
+      View materialization of marketing_touchpoints_consolidated_snapshot data.
+      Renames fields to be compatible with the non-dbt version of marketing_touchpoints_historical.
+    columns:
+      - name: legacy_marketing_touchpoints_historical_key
+        tests:
+        - not_null:
+            name: _audit_rpt_legacy_marketing_touchpoints_historical_key_not_null
+        - unique:
+            name: _audit_rpt_legacy_marketing_touchpoints_historical_key_unique
+
+  - name: rpt_legacy_marketing_touchpoints_historical_sbx
+    description: >
+      Same as model above but includes sandbox run data.
+    columns:
+      - name: legacy_marketing_touchpoints_historical_key
+        tests:
+        - not_null:
+            name: _audit_rpt_legacy_marketing_touchpoints_historical_sbx_key_not_null
+        - unique:
+            name: _audit_rpt_legacy_marketing_touchpoints_historical_sbx_key_unique

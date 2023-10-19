@@ -1,0 +1,55 @@
+version: 2
+
+sources:
+  - name: hh_db_rollups
+    tags: ['core_model']
+    schema: rollups
+    description: Core/main Hinge Health data from the rollups schema.
+
+    tables:
+      - name: client_line_of_business
+        #columns:
+        #- name: TBD
+          #tests:
+            #- dbt_expectations.expect_row_values_to_have_recent_data:
+                #name: _audit_hh_db_rollups_client_line_of_business_data_freshness
+                #datepart: day
+                #interval: 1
+                #row_condition: #optional
+                
+      - name: users_view
+        columns:
+        - name: last_refreshed_date
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_rollups_users_view_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: pathways_view
+        columns:
+        - name: last_refreshed_date
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_rollups_pathways_view_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: screener_relevance_key
+        #columns:
+        #- name: TBD
+          #tests:
+            #- dbt_expectations.expect_row_values_to_have_recent_data:
+                #name: _audit_hh_db_rollups_screener_relevance_key_data_freshness
+                #datepart: day
+                #interval: 1
+                #row_condition: #optional
+
+      - name: screenings_view
+        columns:
+        - name: updated_at
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_hh_db_rollups_screenings_view_data_freshness
+                datepart: day
+                interval: 1

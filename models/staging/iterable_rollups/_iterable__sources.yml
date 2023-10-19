@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: iterable_rollups
+    tags: ['core_model']
+    schema: rollups
+    description: Iterable data from the rollups schema.
+
+    tables:
+      - name: iterable_user
+        columns:
+          - name: _fivetran_synced
+            tests:
+              - dbt_expectations.expect_row_values_to_have_recent_data:
+                  name: _audit_iterable_rollups_iterable_user_data_freshness
+                  datepart: day
+                  interval: 1

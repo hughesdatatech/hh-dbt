@@ -1,0 +1,93 @@
+version: 2
+
+snapshots:
+
+  - name: fct_accrual_timing_curve_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_accrual_timing_curve_snapshot_base_fct_match
+          compare_model: ref("fct_accrual_timing_curve")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_customer_trailing_unattributed_multipliers_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_customer_trailing_unattributed_multipliers_snapshot_base_fct_match
+          compare_model: ref("fct_customer_trailing_unattributed_multipliers")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_forecasted_accrued_customer_touchpoint_conversions_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_forecasted_accrued_customer_touchpoint_conversions_snapshot_base_fct_match
+          compare_model: ref("fct_forecasted_accrued_customer_touchpoint_conversions")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_forecasted_attributed_customer_touchpoint_conversions_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_forecasted_attributed_customer_touchpoint_conversions_snapshot_base_fct_match
+          compare_model: ref("fct_forecasted_attributed_customer_touchpoint_conversions")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_forecasted_customer_conversions_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_forecasted_customer_conversions_snapshot_base_fct_match
+          compare_model: ref("fct_forecasted_customer_conversions")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_forecasted_other_conversions_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_forecasted_other_conversions_snapshot_base_fct_match
+          compare_model: ref("fct_forecasted_other_conversions")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_forecasted_touchpoint_conversions_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_forecasted_touchpoint_conversions_snapshot_base_fct_match
+          compare_model: ref("fct_forecasted_touchpoint_conversions")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_forecasted_y2_member_conversions_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_forecasted_y2_member_conversions_snapshot_base_fct_match
+          compare_model: ref("fct_forecasted_y2_member_conversions")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_predicted_touchpoint_conversion_rates_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_predicted_touchpoint_conversion_rates_snapshot_base_fct_match
+          compare_model: ref("fct_predicted_touchpoint_conversion_rates")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"
+
+  - name: fct_throttled_touchpoints_snapshot
+    description: >
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table:
+          name: _audit_fct_throttled_touchpoints_snapshot_base_fct_match
+          compare_model: ref("fct_throttled_touchpoints")
+          row_condition: "dbt_valid_to is null"
+          compare_row_condition: "1 = 1"

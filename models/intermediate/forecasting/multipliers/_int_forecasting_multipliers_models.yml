@@ -1,0 +1,35 @@
+version: 2
+
+models:
+
+  - name: int_trailing_multipliers_aggregated
+    description: >
+      Provides rules for calculating trailing multipliers by month, and Customer
+      from 2020-04-01 through two years from the current date.
+    columns:
+      - name: activity_month_at
+        tests:
+        - not_null:
+            name: _audit_int_trailing_multipliers_aggregated_activity_month_at_not_null
+      - name: customer_id
+        tests:
+        - not_null:
+            name: _audit_int_trailing_multipliers_aggregated_customer_id_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_trailing_multipliers_aggregated_key_unique
+        combination_of_columns:
+          - activity_month_at
+          - customer_id
+
+  - name: int_unattributed_multipliers_aggregated
+    description: >
+      Provides rules for calculating unattributed multipliers by month
+      from 2020-04-01, temporarily excluding June 2023 due to data issues.
+    columns:
+      - name: activity_month_at
+        tests:
+        - not_null:
+            name: _audit_int_unattributed_multipliers_aggregated_key_not_null
+        - unique:
+            name: _audit_int_unattributed_multipliers_aggregated_key_unique

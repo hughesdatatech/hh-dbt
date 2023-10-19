@@ -1,0 +1,267 @@
+version: 2
+
+models:
+
+  - name: int_accrual_timing_curve
+    description: >
+      Internal view model used to build fct_accrual_timing_curve.
+      See the description of that table model.
+    columns:
+      - name: is_email_communication
+        tests:
+        - not_null:
+            name: _audit_int_accrual_timing_curve_is_email_communication_not_null
+      - name: is_customer_communication
+        tests:
+        - not_null:
+            name: _audit_int_accrual_timing_curve_is_customer_communication_not_null
+      - name: days_to_conversion
+        tests:
+        - not_null:
+            name: _audit_int_accrual_timing_curve_days_to_conversion_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_accrual_timing_curve_key_unique
+        combination_of_columns:
+          - is_email_communication
+          - is_customer_communication
+          - days_to_conversion
+
+  - name: int_customer_trailing_unattributed_multipliers
+    description: >
+      Internal view model used to build fct_customer_trailing_unattributed_multipliers.
+      See the description of that table model.
+    columns:
+      - name: customer_id
+        tests:
+        - not_null:
+            name: _audit_int_customer_trailing_unattributed_multipliers_customer_id_not_null
+      - name: activity_month_at
+        tests:
+        - not_null:
+            name: _audit_int_customer_trailing_unattributed_multipliers_activity_month_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_customer_trailing_unattributed_multipliers_key_unique
+        combination_of_columns:
+          - customer_id
+          - activity_month_at
+
+  - name: int_forecasted_accrued_customer_touchpoint_conversions
+    description: >
+      Internal view model used to build fct_forecasted_accrued_customer_touchpoint_conversions.
+      See the description of that table model.
+    columns:
+      - name: _meta_model_type
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_accrued_customer_touchpoint_conversions__meta_model_type_not_null
+      - name: _meta_model_version
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_accrued_customer_touchpoint_conversions__meta_model_version_not_null
+      - name: _meta_model_features
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_accrued_customer_touchpoint_conversions__meta_model_features_not_null
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_accrued_customer_touchpoint_conversions_customer_id_not_null
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_accrued_customer_touchpoint_conversions_touchpoint_id_not_null
+      - name: in_holdout
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_accrued_customer_touchpoint_conversions_in_holdout_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_accrued_customer_touchpoint_conversions_activity_date_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_forecasted_accrued_customer_touchpoint_conversions_key_unique
+        combination_of_columns:
+          - _meta_model_type
+          - _meta_model_version
+          - _meta_model_features
+          - customer_id
+          - touchpoint_id
+          - in_holdout
+          - activity_date_at
+
+  - name: int_forecasted_attributed_customer_touchpoint_conversions
+    description: >
+      Internal view model used to build fct_forecasted_attributed_customer_touchpoint_conversions.
+      See the description of that table model.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_attributed_customer_touchpoint_conversions_customer_id_not_null
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_attributed_customer_touchpoint_conversions_touchpoint_id_not_null
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_attributed_customer_touchpoint_conversions_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_attributed_customer_touchpoint_conversions_program_not_null
+      - name: sub_program
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_attributed_customer_touchpoint_conversions_sub_program_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_attributed_customer_touchpoint_conversions_activity_date_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_forecasted_attributed_customer_touchpoint_conversions_key_unique
+        combination_of_columns:
+          - customer_id
+          - touchpoint_id
+          - attribution_type
+          - program
+          - sub_program
+          - activity_date_at
+
+  - name: int_forecasted_customer_conversions
+    description: >
+      Internal view model used to build fct_forecasted_customer_conversions.
+      See the description of that table model.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_customer_conversions_customer_id_not_null
+      - name: detail_json
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_customer_conversions_detail_json_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_customer_conversions_activity_date_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_forecasted_customer_conversions_key_unique
+        combination_of_columns:
+          - customer_id
+          - detail_json
+          - activity_date_at
+
+  - name: int_forecasted_other_conversions
+    description: >
+      Internal view model used to build fct_forecasted_other_conversions.
+      See the description of that table model.
+    columns:
+      - name: attribution_type
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_other_conversions_attribution_type_not_null
+      - name: program
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_other_conversions_program_not_null
+      - name: adjustment_type
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_other_conversions_adjustment_type_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_other_conversions_activity_date_at_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_forecasted_other_conversions_key_unique
+        combination_of_columns:
+          - attribution_type
+          - program
+          - adjustment_type
+          - activity_date_at
+
+  - name: int_forecasted_touchpoint_conversions
+    description: >
+      Internal view model used to build fct_forecasted_touchpoint_conversions.
+      See the description of that table model.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - not_null:
+              name: _audit_int_forecasted_touchpoint_conversions_key_not_null
+      - name: touchpoint_id
+        tests:
+          - unique:
+              name: _audit_int_forecasted_touchpoint_conversions_key_unique
+  
+  - name: int_forecasted_y2_member_conversions
+    description: >
+      Internal view model used to build fct_forecasted_y2_member_conversions.
+      See the description of that table model.
+    tests:
+    - dbt_expectations.expect_compound_columns_to_be_unique:
+        name: _audit_int_forecasted_y2_member_conversions_key_unique
+        column_list: ["customer_id", "marketing_id", "member_uuid", "attribution_type", "program", "sub_program", "activity_date_at"]
+
+  - name: int_marketing_touchpoints_consolidated
+    description: >
+      Internal view model used to build fct_marketing_touchpoints_consolidated.
+      See the description of that table model.
+    columns:
+      - name: touchpoint_id
+        tests:
+          - unique:
+              name: _audit_int_marketing_touchpoints_consolidated_key_unique
+          - not_null:
+              name: _audit_int_marketing_touchpoints_consolidated_key_not_null
+
+  - name: int_observed_conversions
+    description: >
+      Internal view model used to build fct_observed_conversions.
+      See the description of that table model.
+    columns:
+      - name: member_id
+        tests:
+        - not_null:
+            name: _audit_int_observed_conversions_member_id_not_null
+      - name: customer_id
+        tests:
+        - not_null:
+            name: _audit_int_observed_conversions_customer_id_not_null
+      - name: activity_date_at
+        tests:
+        - not_null:
+            name: _audit_int_observed_conversions_activity_date_at_not_null
+      - name: detail_json
+        tests:
+        - not_null:
+            name: _audit_int_observed_conversions_detail_json_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_observed_conversions_key_unique
+        combination_of_columns:
+          - touchpoint_id
+          - marketing_id
+          - member_id
+          - screening_id
+          - activity_date_at
+          - detail_json
+          
+  - name: int_throttled_touchpoints
+    description: >
+      Internal view model used to build fct_throttled_touchpoints.
+      See the description of that table model.
+    columns:
+      - name: touchpoint_id
+        tests:
+        - not_null:
+            name: _audit_int_throttled_touchpoints_key_not_null
+        - unique:
+            name: _audit_int_throttled_touchpoints_key_unique

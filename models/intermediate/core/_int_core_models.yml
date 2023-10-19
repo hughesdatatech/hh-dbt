@@ -1,0 +1,124 @@
+version: 2
+
+models:
+
+  - name: int_chronic_computer_vision_customers
+    description: >
+      Provides a list of all customer_ids that are chronic 
+      and computer vision, with computer vision designation 
+      determined by a subset of program indications.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_computer_vision_customers_key_not_null
+          - unique:
+              name: _audit_int_chronic_computer_vision_customers_key_unique
+      
+  - name: int_chronic_womens_pelvic_health_customers
+    description: >
+      Provides a list of all customer_ids that are womens 
+      pelvic health, with womens pelvic health designation 
+      determined by a subset of program indications.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_chronic_womens_pelvic_health_customers_key_not_null
+          - unique:
+              name: _audit_int_chronic_womens_pelvic_health_customers_key_unique
+
+  - name: int_customer_weeks_with_dmc_indicator
+    description: >
+      Provides a list of all customer_ids by week since their first touchpoint
+      send date, through the end of the following year based on the current date.
+      A flag is included to indicate if the dmc programs launch date had occurred
+      within or before the week in question.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_customer_weeks_with_dmc_indicator_customer_id_not_null
+      - name: activity_date_at
+        tests:
+          - not_null:
+              name: _audit_int_customer_weeks_with_dmc_indicator_activity_date_at_not_null
+      - name: is_dmc_included
+        tests:
+          - not_null:
+              name: _audit_int_customer_weeks_with_dmc_indicator_is_dmc_included_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_customer_weeks_with_dmc_indicator_key_unique
+        combination_of_columns:
+          - customer_id
+          - activity_date_at
+          - is_dmc_included
+
+  - name: int_customers_joined_to_indications
+    description: >
+      Provides a list of all account_ids, customer_ids and their programs, with
+      flags representing the indication that is applicable to the program.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_customers_joined_to_indications_customer_id_not_null
+      - name: account_id
+        tests:
+          - not_null:
+              name: _audit_int_customers_joined_to_indications_account_id_not_null
+      - name: program_indication_identifier
+        tests:
+          - not_null:
+              name: _audit_int_customers_joined_to_indications_program_indication_identifier_not_null
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_customers_joined_to_indications_key_unique
+        combination_of_columns:
+          - customer_id
+          - account_id
+          - program_indication_identifier
+
+  - name: int_iterable_customers_aggregated
+    description: >
+      Provides a list of customer_ids and the number of 
+      iterable members associated with each one.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_iterable_customers_aggregated_key_not_null
+          - unique:
+              name: _audit_int_iterable_customers_aggregated_key_unique    
+
+  - name: int_iterable_members_joined_to_members
+    description: >
+      Provides a list of various identifiers related to iterable
+      members, as well as the customer_ids they were able to
+      be matched to.
+    columns:
+      - name: iterable_email_address
+        tests:
+          - not_null:
+              name: _audit_int_iterable_members_joined_to_members_key_not_null
+          - unique:
+              name: _audit_int_iterable_members_joined_to_members_key_unique 
+    tests:
+    - dbt_utils.unique_combination_of_columns:
+        name: _audit_int_iterable_members_joined_to_members_secondary_key_unique
+        combination_of_columns:
+          - iterable_email_address
+          - final_marketing_id
+
+  - name: int_mailchimp_customers_aggregated
+    description: >
+      Provides a list of customer_ids and the number of 
+      mailchimp members associated with each one.
+    columns:
+      - name: customer_id
+        tests:
+          - not_null:
+              name: _audit_int_mailchimp_customers_aggregated_key_not_null
+          - unique:
+              name: _audit_int_mailchimp_customers_aggregated_key_unique

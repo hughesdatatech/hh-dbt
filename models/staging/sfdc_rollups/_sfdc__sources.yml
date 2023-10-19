@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: sfdc_rollups
+    tags: ['core_model']
+    schema: rollups
+    description: SFDC data from the rollups schema.
+
+    tables:
+      - name: sf_accounts
+        columns:
+        - name: insertion_date
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_sfdc_rollups_sf_accounts_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: sf_deployments
+        columns:
+        - name: insertion_date
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_sfdc_rollups_sf_deployments_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: sf_marketing_activities
+        columns:
+        - name: insertion_date
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_sfdc_rollups_sf_marketing_activities_data_freshness
+                datepart: day
+                interval: 1
+
+      - name: sf_opportunities
+        columns:
+        - name: insertion_date
+          tests:
+            - dbt_expectations.expect_row_values_to_have_recent_data:
+                name: _audit_sfdc_rollups_sf_opportunities_data_freshness
+                datepart: day
+                interval: 1

@@ -1,0 +1,33 @@
+version: 2
+
+models:
+
+  - name: int_bill_payments
+    description: >
+    columns:
+      - name: remit_id
+        tests:
+        - not_null:
+            name: _audit_int_bill_payments_key_not_null
+        - unique:
+            name: _audit_int_bill_payments_key_unique
+
+  - name: int_billable_subscriptions
+    description: >
+    columns:
+      - name: subscription_id
+        tests:
+        - not_null:
+            name: _audit_int_billable_subscriptions_key_not_null
+        - unique:
+            name: _audit_int_billable_subscriptions_key_unique
+
+  - name: int_submitted_bills
+    description: >
+    columns:
+      - name: submission_id
+        tests:
+        - not_null:
+            name: _audit_int_submitted_bills_key_not_null
+        - unique:
+            name: _audit_int_submitted_bills_key_unique

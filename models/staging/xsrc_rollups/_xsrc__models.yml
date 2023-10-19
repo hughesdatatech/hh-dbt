@@ -1,0 +1,12 @@
+version: 2
+
+models:
+
+  # XSRC Rollups
+  - name: stg_xsrc_rollups__insurance_checks
+
+  - name: stg_xsrc_rollups__marketing_events_dbt
+
+  - name: stg_xsrc_rollups__marketing_events_observed_forecasted
+
+  - name: stg_xsrc_rollups__marketing_touchpoints_historical_dbt

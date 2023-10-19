@@ -1,0 +1,48 @@
+version: 2
+
+models:
+
+  - name: dim_accounts
+    description: >
+      TBD
+    columns:
+      - name: account_key
+        tests:
+        - not_null:
+            name: _audit_dim_accounts_key_not_null
+        - not_null:
+            name: _audit_dim_accounts_key_unique
+
+  - name: dim_customers
+    description: >
+      TBD
+    columns:
+      - name: customer_key
+        tests:
+        - not_null:
+            name: _audit_dim_customers_key_not_null
+        - not_null:
+            name: _audit_dim_customers_key_unique
+
+  - name: dim_dates
+    description: >
+      TBD
+    columns:
+      - name: date_key
+        tests:
+        - not_null:
+            name: _audit_dim_dates_key_not_null
+        - not_null:
+            name: _audit_dim_dates_key_unique
+
+  - name: dim_members
+    description: >
+      TBD
+    columns:
+      - name: member_key
+        tests:
+        - not_null:
+            name: _audit_dim_members_key_not_null
+        - not_null:
+            name: _audit_dim_members_key_unique
+          
